@@ -102,7 +102,7 @@ function draw() {
       drawDiscBackground(discs[i]);
    }
 
-   context.drawImage(fish, 0, 0);
+   fish.paint(context);
 
    for (var i=0; i < numDiscs; ++i) {
       drawDisc(discs[i]);
@@ -116,10 +116,12 @@ function animate(time) {
       update();
       draw();
 
-      context.fillStyle = 'cornflowerblue';
-      context.fillText(calculateFps().toFixed() + ' fps', 20, 60);
+      
 
-      window.requestNextAnimationFrame(animate);
+      //context.fillStyle = 'cornflowerblue';
+      //context.fillText(calculateFps().toFixed() + ' fps', 20, 60);
+
+      requestNextAnimationFrame(animate);
    }
 }
 
@@ -128,17 +130,19 @@ animateButton.onclick = function (e) {
    if (paused) {
       animateButton.value = 'Animate';
    } else {
-      window.requestNextAnimationFrame(animate);
+      requestNextAnimationFrame(animate);
       animateButton.value = 'Pause';
    }
 };
 
 canvas.width = 750;
-canvas.height = 500;
+canvas.height = 750;
 context.font = '48px Helvetica';
-fish.src = 'fish.png';
-
-
+var fish = new Sprite('fish', new ImagePainter('../img/fish.png'));
+fish.painter.image.onload = function() {
+   fish.width = fish.painter.image.width;
+   fish.height = fish.painter.image.height;
+}
 
 function flashText() {
    var oElem = document.getElementById('my_box');
@@ -146,7 +150,7 @@ function flashText() {
    // oElem.style.color == 'red' ? 'blue' : 'red' is a ternary operator.
    requestNextAnimationFrame(flashText);
 }
-requestNextAnimationFrame(flashText);
+var handle = requestNextAnimationFrame(flashText);
 
 function stopTextColor() {
   cancelAnimationFrame(handle);

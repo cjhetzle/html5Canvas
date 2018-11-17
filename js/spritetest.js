@@ -22,21 +22,7 @@ var context =  document.getElementById('canvas').getContext('2d'),
       }
    });
 
-var ImagePainter = function (imageUrl) {
-   this.image = new Image();
-   this.image.src = imageUrl;
-};
-
-ImagePainter.prototype = {
-   paint: function (sprite, context) {
-      if (this.image.complete) {
-         context.drawImage(this.image, sprite.left, sprite.top,
-                           sprite.width, sprite.height);
-      }
-   }
-};
-
-var fish = new Sprite('fish', new ImagePainter('fish.png'));
+var fish = new Sprite('fish', new ImagePainter('../img/fish.png'));
 fish.left = 220;
 fish.top = 80;
 fish.width = 280;

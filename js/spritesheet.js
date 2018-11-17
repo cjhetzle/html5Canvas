@@ -97,7 +97,7 @@ function animate(time) {
 
 // -------------------
 
-spritesheet.src = 'kirby_sheet.png';
+spritesheet.src = '../img/kirby_sheet.png';
 //spritesheet.onload = function(e) {
 //   context.drawImage(spritesheet, 0, 0);
 //};
