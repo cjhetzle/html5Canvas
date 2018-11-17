@@ -2,9 +2,14 @@ var game = new Game('ungame', 'gameCanvas');
 
 // Scrolling background.......................
 
-translateDelta = 0.025,
-translateOffset = 0,
-pausedToast = document.getElementById('pausedToast'),
+var gameOver = false,
+   score = 0,
+   lastScore = 0
+   lastScoreUpdate = undefined,
+   livesLeft = 10,
+   translateDelta = 0.025,
+   translateOffset = 0,
+   pausedToast = document.getElementById('pausedToast'),
 
 // PAUSE GAME..................................
 
@@ -36,7 +41,7 @@ window.onfocus = function windowOnFocus() {
 
 scrollBackground = function () {
    translateOffset = (translateOffset + translateDelta) %
-                     game.canvas.width;
+                     game.context.canvas.width;
    game.context.translate(-translateOffset,0);
 },
 
@@ -47,7 +52,7 @@ paintClouds = function (context) {
    paintNearCloud(game.context, game.context.canvas.width + 120, 20);
 },
 
-paintSun = funciton (context) {
+paintSun = function (context) {
    //
 },
 
@@ -131,10 +136,10 @@ game.paintUnderSprites = function () {
       paintFarCloud(game.context, game.context.canvas.width+20,20);
 
       if (!gameOver) {
-         updateScore();
+         //updateScore();
       }
 
-      updateLivesDisplay();
+      //updateLivesDisplay();
    }
 };
 

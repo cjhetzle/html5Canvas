@@ -143,7 +143,7 @@ Game.prototype = {
    },
 
    animate: function (time) {
-      car self = this;
+      var self = this;
 
       if (this.paused) {
          // in pause_timeout call this method again to see if the game is still paused, there's no need to check more frequently
@@ -218,7 +218,7 @@ Game.prototype = {
 
    pixelsPerFrame: function (time, velocity) {
       return velocity / game.fps;
-   }
+   },
 
    // Key listeners
 
