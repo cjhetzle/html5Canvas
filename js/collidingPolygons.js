@@ -16,7 +16,7 @@ var canvas = document.getElementById('canvas'),
 
    polygonStrokeStyles = [ 'blue', 'yellow', 'red' ],
    polygonFillStyles   = [ 'rgba(255, 255, 0, 0.7)',
-                           'rgba(100, 140, 230, 0.6)'
+                           'rgba(100, 140, 230, 0.6)',
                            'rgba(255, 255, 255, 0.8)' ],
 
    mousedown = { x: 0, y: 0 },
