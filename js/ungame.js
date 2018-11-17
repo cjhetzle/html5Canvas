@@ -138,6 +138,8 @@ game.paintUnderSprites = function () {
    }
 };
 
+// PAUSE BUTTON......................
+
 game.addKeyListener({
    key: 'p',
    listener: function () {
