@@ -14,6 +14,8 @@ var canvas = document.getElementById('canvas'),
 
    ],
 
+   ballSprite = new Sprite('ball', new ImagePainter('../img/fish.png')),
+
    polygonStrokeStyles = [ 'blue',    'yellow', 'red' ],
    polygonFillStyles   = [ 'rgba(255, 255,   0, 0.7)',
                            'rgba(100, 140, 230, 0.6)',
@@ -115,6 +117,9 @@ circle1 = new Circle(150, 75, 20);
 circle2 = new Circle(350, 25, 30);
 shapes.push(circle1);
 shapes.push(circle2);
+
+shapes.push(new ImageShape('../img/fish.png', 50, 50));
+shapes.push(new SpriteShape(ballSprite, 100, 100));
 
 context.shadowColor = 'rgba(100,140,255,0.5)';
 context.shadowBlur = 4;

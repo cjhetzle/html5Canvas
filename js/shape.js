@@ -330,3 +330,117 @@ Projection.prototype = {
       return this.max > projection.min && projection.max > this.min;
    },
 };
+
+var ImageShape = function(imageUrl, x, y, w, h) {
+   var self = this;
+
+   this.image = new Image();
+   this.imageLoaded = false;
+   this.points = [ new Point(x,y) ];
+   this.x = x;
+   this.y = y;
+
+   this.image.src = imageUrl;
+
+   this.image.addEventListener('load', function (e) {
+      self.setPolygonPoints();
+      self.imageLoaded = true;
+   }, false);
+}
+
+// prototype
+
+ImageShape.prototype = new Polygon();
+
+ImageShape.prototype.fill = function (context) {};
+
+ImageShape.prototype.setPolygonPoints = function() {
+   this.points.push(new Point(this.x + this.image.width, this.y));
+   this.points.push(new Point(this.x + this.image.width,
+                              this.y + this.image.height));
+   this.points.push(new Point(this.x, this.y + this.image.height));
+};
+
+ImageShape.prototype.drawImage = function (context) {
+   context.drawImage(this.image, this.points[0].x, points[0].y);
+};
+
+ImageShape.prototype.stroke = function (context) {
+   var self = this;
+
+   if (this.imageLoaded) {
+      context.drawImage(this.image,
+                        this.points[0].x, this.points[0].y);
+   } else {
+      this.image.addEventListener('load', function (e) {
+         self.drawImage(context);
+      }, false);
+   }
+};
+
+var SpriteShape = function (sprite, x, y) {
+   this.sprite = sprite;
+   this.x = x;
+   this.y = y;
+   sprite.left = x;
+   sprite.top = y;
+   this.setPolygonPoints();
+};
+
+var Sprite = function (number, painter, behaviors) {
+   if (name !== undefined)      this.name = name;
+   if (painter !== undefined)   this.painter = painter;
+
+   this.top = 0;
+   this.left = 0;
+   this.width = 10;
+   this.height = 10;
+   this.velocityX = 0;
+   this.velocityY = 0;
+   this.visible = true;
+   this.animating = false;
+   this.behaviors = behaviors || [];
+
+   return this;
+};
+
+Sprite.prototype = {
+   paint: function (context) {
+      if (this.painter !== undefined && this.visible) {
+         this.painter.paint(this, context);
+      }
+   },
+
+   update: function (context, time) {
+      for (var i = 0; i < this.behaviors.length; ++i) {
+         this.behaviors[i].execute(this,context,time);
+      }
+   }
+};
+
+SpriteShape.prototype = new Polygon();
+
+SpriteShape.prototype.move = function (dx, dy) {
+   var point, x;
+   for (var i = 0; i < this.points.length; ++i) {
+      point = this.points[i];
+      point.x += dx;
+      point.y += dy;
+   }
+   this.sprite.left = this.points[0].x;
+   this.sprite.top = this.points[0].y;
+};
+
+SpriteShape.prototype.fill = function (context) { };
+
+SpriteShape.prototype.setPolygonPoints = function() {
+   this.points.push(new Point(this.x, this.y));
+   this.points.push(new Point(this.x + this.sprite.width, this.y));
+   this.points.push(new Point(this.x + this.sprite.width,
+                              this.y + this.sprite.height));
+   this.points.push(new Point(this.x, this.y + this.sprite.height));
+};
+
+SpriteShape.prototype.stroke = function (context) {
+   this.sprite.paint(context);
+};
