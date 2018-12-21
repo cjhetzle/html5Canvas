@@ -2,8 +2,7 @@ var game = new Game('ungame', 'gameCanvas');
 
 // Scrolling background.......................
 
-var gameOver = false,
-   score = 0,
+var score = 0,
    lastScore = 0
    lastScoreUpdate = undefined,
    livesLeft = 10,
@@ -45,7 +44,73 @@ scrollBackground = function () {
    game.context.translate(-translateOffset,0);
 },
 
-// Paint methods
+// Paint methods.................
+HIGH_SCORES_DISPLAYED = 10,
+
+highScoreToast = document.getElementById('highScoreToast'),
+highScoreParagraph = document.getElementById('highScoreParagraph'),
+highScoreList = document.getElementById('highScoreList'),
+nameInput = document.getElementById('addMyScoreButton'),
+newGameButton = document.getElementById('newGameButton'),
+
+previousHighScoresTitle = document.getElementById('previousHighScoresTitle'),
+
+newGameFromHighScoresButton = document.getElementById('newGameFromHighScoresButton'),
+
+clearHighScoresCheckbox = document.getElementById('clearHighScoresCheckbox'),
+
+// Game over..........................
+
+gameOverToast = document.getElementById('gameOverToast'),
+gameOver = false,
+
+over = function () {
+   var highScore;
+      highScores = game.getHighScores();
+
+      if (highScores.length == 0 || score > highScores[0].score) {
+         showHighScores();
+      } else {
+         gameOverToast.style.display = 'inline';
+      }
+      gameOver = true;
+      lastScore = score;
+      score = 0;
+},
+
+showHighScores = function () {
+   highScoreParagraph.style.display = 'inline';
+   highScoreParagraph.innerText = score;
+   highScoreToast.style.display = 'inline';
+   updateHighScoreList();
+},
+
+updateHighScoreList = function () {
+   var el,
+      highScores = game.getHighScores(),
+      length = highScores.length,
+      highScore,
+      listParent = highScoreList.parentNode;
+
+   listParent.removeChild(highScoreList);
+   highScoreList = document.createElement('ol');
+   highScoreList.id = 'highScoreList'; // So css takes effect
+   listParent.appendChild(highScoreList);
+
+   if (length > 0) {
+      previousHighScoresTitle.style.display = 'block';
+
+      length = length > 10 ? 10 : length;
+
+      for (var i=0; i < length; ++i) {
+         highScore = highScores[i];
+         el = document.createElement.score + ' by ' + highScore.name;
+         highScoreList.appendChild(el);
+      }
+   } else {
+      previousHighScoresTitle.style.display = 'none';
+   }
+}
 
 paintClouds = function (context) {
    paintFarCloud(game.context, 0, 20);
