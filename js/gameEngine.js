@@ -72,7 +72,7 @@ Game.prototype = {
       }
       return undefined; // all tracks in use
    },
-
+ 
    playSound: function (id) {
       var track = this.getAvailableSoundChannel(),
          element = document.getElementById(id);
